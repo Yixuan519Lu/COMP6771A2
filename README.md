@@ -1,7 +1,7 @@
 # Assignment 2 - `filtered_string_view`
 
 ## Changelog:
-- N/A
+* 19/06: Updated the testing clarity criteria
 
 [toc]
 
@@ -838,8 +838,7 @@ dozen if statements).
           - ones that would be private if you were doing OOP).
         </li>
         <li>
-          Clarity — If your test case failed, it should be immediately obvious what went wrong (this
-          means splitting it up into appropriately sized sub-tests, amongst other things).
+          Clarity — If your test case failed, it should be immediately obvious what went wrong (this means splitting it up into appropriately sized sub-tests, amongst other things). Your tests should be well documented and clear in terms of the what the purpose of each of your tests is. I.E. What is the expected behaviour or edge case it is specifically testing. Where appropriate, an elaboration on *why* you're testing something is just as important as describing *what* you're testing.
         </li>
         <li>
           Simplicity — Your test cases should be simple, avoiding things like loops and other complex conditional
