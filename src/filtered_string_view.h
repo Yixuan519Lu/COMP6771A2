@@ -2,12 +2,14 @@
 #define COMP6771_ASS2_FSV_H
 
 #include <compare>
+#include <cstring>
 #include <functional>
 #include <iterator>
 #include <optional>
 #include <string>
 
 namespace fsv {
+	using filter = std::function<bool(const char&)>;
 	class filtered_string_view {
 		class iter {
 		 public:
@@ -31,7 +33,22 @@ namespace fsv {
 		};
 
 	 public:
+		filtered_string_view();
+		filtered_string_view(const std::string& str);
+		filtered_string_view(const std::string& str, filter predicate);
+		filtered_string_view(const char* str);
+		filtered_string_view(const char* str, filter predicate);
+		filtered_string_view(const filtered_string_view& other);
+		filtered_string_view(filtered_string_view&& other) noexcept;
+		filtered_string_view& operator=(const filtered_string_view& other);
+		filtered_string_view& operator=(filtered_string_view&& other) noexcept;
+		~filtered_string_view();
+		static filter default_predicate;
+
 	 private:
+		const char* ptr;
+		std::size_t str_length;
+		filter str_pred;
 	};
 } // namespace fsv
 
