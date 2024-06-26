@@ -34,4 +34,25 @@ namespace fsv {
 		other.str_length = 0;
 		other.str_pred = default_predicate;
 	}
+	filtered_string_view& filtered_string_view::operator=(const filtered_string_view& other) {
+		if (this != &other) {
+			ptr = other.ptr;
+			str_length = other.str_length;
+			str_pred = other.str_pred;
+		}
+		return *this;
+	}
+	filtered_string_view& filtered_string_view::operator=(filtered_string_view&& other) noexcept {
+		if (this != &other) {
+			ptr = other.ptr;
+			str_length = other.str_length;
+			str_pred = std::move(other.str_pred);
+			other.ptr = nullptr;
+			other.str_length = 0;
+			other.str_pred = default_predicate;
+		}
+		return *this;
+	}
+	filtered_string_view::~filtered_string_view() noexcept {}
+
 } // namespace fsv
