@@ -6,6 +6,7 @@
 #include <functional>
 #include <iterator>
 #include <optional>
+#include <stdexcept>
 #include <string>
 
 namespace fsv {
@@ -44,6 +45,7 @@ namespace fsv {
 		filtered_string_view& operator=(filtered_string_view&& other) noexcept;
 		~filtered_string_view();
 		static filter default_predicate;
+		const char& at(std::size_t n) const;
 
 	 private:
 		const char* ptr;

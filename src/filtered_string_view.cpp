@@ -54,5 +54,17 @@ namespace fsv {
 		return *this;
 	}
 	filtered_string_view::~filtered_string_view() noexcept {}
+	const char& filtered_string_view::at(std::size_t n) const {
+		std::size_t filtered_index = 0;
+		for (std::size_t i = 0; i < str_length; i++) {
+			if (str_pred(ptr[i])) {
+				if (filtered_index == n) {
+					return ptr[i];
+				}
+				filtered_index++;
+			}
+		}
+		throw std::domain_error("filtered_string_view::at(" + std::to_string(n) + "): invalid index");
+	}
 
 } // namespace fsv
