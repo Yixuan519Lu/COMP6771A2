@@ -66,5 +66,8 @@ namespace fsv {
 		}
 		throw std::domain_error("filtered_string_view::at(" + std::to_string(n) + "): invalid index");
 	}
+	const char& filtered_string_view::operator[](std::size_t n) const {
+		return this->at(n);
+	}
 
 } // namespace fsv
