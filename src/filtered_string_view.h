@@ -60,6 +60,7 @@ namespace fsv {
 	};
 	filtered_string_view compose(const filtered_string_view& fsv, const std::vector<filter>& filts);
 
+	bool operator==(const filtered_string_view& lhs, const filtered_string_view& rhs);
 } // namespace fsv
 
 #endif // COMP6771_ASS2_FSV_H

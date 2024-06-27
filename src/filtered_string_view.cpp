@@ -108,4 +108,15 @@ namespace fsv {
 		};
 		return filtered_string_view(fsv.data(), composed);
 	}
+	bool operator==(const filtered_string_view& lhs, const filtered_string_view& rhs) {
+		if (lhs.size() != rhs.size()) {
+			return false;
+		}
+		for (std::size_t i = 0; i < rhs.size(); i++) {
+			if (lhs[i] != rhs[i]) {
+				return false;
+			}
+		}
+		return true;
+	}
 } // namespace fsv

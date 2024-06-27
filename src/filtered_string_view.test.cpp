@@ -36,6 +36,14 @@ TEST_CASE("Null-Terminated String with Predicate Constructor") {
 	REQUIRE(sv.size() == 1);
 }
 
+TEST_CASE("Copy Constructor and Move Constructor") {
+	auto sv1 = filtered_string_view{"bulldog"};
+	const auto copy = sv1;
+	REQUIRE(copy.data() == sv1.data());
+	const auto move = std::move(sv1);
+	REQUIRE(sv1.data() == nullptr);
+}
+
 TEST_CASE("Subscript Operator with Predicate") {
 	auto pred = [](const char& c) { return c == '9' || c == '0' || c == ' '; };
 	auto fsv1 = filtered_string_view{"only 90s kids understand", pred};
@@ -61,4 +69,20 @@ TEST_CASE("String Type Conversion") {
 	auto s = static_cast<std::string>(sv);
 	REQUIRE(s == "vizsla");
 	REQUIRE(sv.data() != s.data());
+}
+
+TEST_CASE("Equality Comparison") {
+	auto lo = filtered_string_view{"aaa"};
+	auto hi = filtered_string_view{"zzz"};
+	REQUIRE(lo != hi);
+}
+
+TEST_CASE("Compose Function") {
+	auto best_languages = filtered_string_view{"c / c++"};
+	auto vf = std::vector<filter>{[](const char& c) { return c == 'c' || c == '+' || c == '/'; },
+	                              [](const char& c) { return c > ' '; },
+	                              [](const char&) { return true; }};
+
+	auto sv = compose(best_languages, vf);
+	REQUIRE(static_cast<std::string>(sv) == "c/c++");
 }
