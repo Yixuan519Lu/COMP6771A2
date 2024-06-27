@@ -90,11 +90,22 @@ namespace fsv {
 	filtered_string_view::operator std::string() const {
 		std::string conversion;
 		conversion.reserve(str_length);
-		for (std::size_t i = 0; i < str_length; ++i) {
+		for (std::size_t i = 0; i < str_length; i++) {
 			if (str_pred(ptr[i])) {
 				conversion.push_back(ptr[i]);
 			}
 		}
 		return conversion;
+	}
+	filtered_string_view compose(const filtered_string_view& fsv, const std::vector<filter>& filts) {
+		auto composed = [filts](const char& c) {
+			for (const auto& filt : filts) {
+				if (!filt(c)) {
+					return false;
+				}
+			}
+			return true;
+		};
+		return filtered_string_view(fsv.data(), composed);
 	}
 } // namespace fsv

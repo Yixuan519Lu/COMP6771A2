@@ -58,6 +58,7 @@ namespace fsv {
 		std::size_t str_length;
 		filter str_pred;
 	};
+	filtered_string_view compose(const filtered_string_view& fsv, const std::vector<filter>& filts);
 
 } // namespace fsv
 
