@@ -129,4 +129,10 @@ namespace fsv {
 		}
 		return lhs_size <=> rhs_size;
 	}
+	auto operator<<(std::ostream& os, const filtered_string_view& fsv) -> std::ostream& {
+		for (std::size_t i = 0; i < fsv.size(); i++) {
+			os << fsv[i];
+		}
+		return os;
+	}
 } // namespace fsv

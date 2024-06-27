@@ -2,6 +2,7 @@
 
 #include <catch2/catch.hpp>
 #include <set>
+#include <sstream>
 #include <string>
 #include <vector>
 
@@ -105,4 +106,11 @@ TEST_CASE("Compose Function") {
 
 	auto sv = compose(best_languages, vf);
 	REQUIRE(static_cast<std::string>(sv) == "c/c++");
+}
+
+TEST_CASE("Output Stream") {
+	auto fsv = filtered_string_view{"c++ > rust > java", [](const char& c) { return c == 'c' || c == '+'; }};
+	std::ostringstream test_os_stream;
+	test_os_stream << fsv;
+	REQUIRE(test_os_stream.str() == "c++");
 }

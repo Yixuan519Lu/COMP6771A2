@@ -4,6 +4,7 @@
 #include <compare>
 #include <cstring>
 #include <functional>
+#include <iostream>
 #include <iterator>
 #include <optional>
 #include <stdexcept>
@@ -62,7 +63,7 @@ namespace fsv {
 
 	bool operator==(const filtered_string_view& lhs, const filtered_string_view& rhs);
 	auto operator<=>(const filtered_string_view& lhs, const filtered_string_view& rhs) -> std::strong_ordering;
-
+	auto operator<<(std::ostream& os, const filtered_string_view& fsv) -> std::ostream&;
 } // namespace fsv
 
 #endif // COMP6771_ASS2_FSV_H
