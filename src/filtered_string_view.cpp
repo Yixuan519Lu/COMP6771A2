@@ -98,9 +98,9 @@ namespace fsv {
 		return conversion;
 	}
 	filtered_string_view compose(const filtered_string_view& fsv, const std::vector<filter>& filts) {
-		auto composed = [filts](const char& c) {
+		auto composed = [filts](const char& input_char) {
 			for (const auto& filt : filts) {
-				if (!filt(c)) {
+				if (not filt(input_char)) {
 					return false;
 				}
 			}
