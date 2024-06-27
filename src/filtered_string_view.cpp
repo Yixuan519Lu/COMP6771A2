@@ -69,5 +69,14 @@ namespace fsv {
 	const char& filtered_string_view::operator[](std::size_t n) const {
 		return this->at(n);
 	}
+	std::size_t filtered_string_view::size() const {
+		std::size_t filtered_count = 0;
+		for (std::size_t i = 0; i < str_length; i++) {
+			if (str_pred(ptr[i])) {
+				filtered_count++;
+			}
+		}
+		return filtered_count;
+	}
 
 } // namespace fsv

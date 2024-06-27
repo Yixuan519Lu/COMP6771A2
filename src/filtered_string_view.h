@@ -47,12 +47,14 @@ namespace fsv {
 		static filter default_predicate;
 		const char& at(std::size_t n) const;
 		const char& operator[](std::size_t n) const;
+		std::size_t size() const;
 
 	 private:
 		const char* ptr;
 		std::size_t str_length;
 		filter str_pred;
 	};
+
 } // namespace fsv
 
 #endif // COMP6771_ASS2_FSV_H
