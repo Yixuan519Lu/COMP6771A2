@@ -74,7 +74,27 @@ TEST_CASE("String Type Conversion") {
 TEST_CASE("Equality Comparison") {
 	auto lo = filtered_string_view{"aaa"};
 	auto hi = filtered_string_view{"zzz"};
+	auto lolo = filtered_string_view{"aaa"};
 	REQUIRE(lo != hi);
+	REQUIRE(lo == lolo);
+}
+
+TEST_CASE("Relational Comparison") {
+	auto const lo = filtered_string_view{"aaa"};
+	auto const hi = filtered_string_view{"zzz"};
+	REQUIRE((lo < hi) == true);
+	REQUIRE((lo <= hi) == true);
+	REQUIRE((lo > hi) == false);
+	REQUIRE((lo >= hi) == false);
+	REQUIRE((lo <=> hi) == std::strong_ordering::less);
+}
+
+TEST_CASE("Predicate") {
+	auto filter_pred = [](const char& c) { return !(c == 'v'); };
+	auto sv = filtered_string_view{"vizsla", filter_pred};
+	const auto& predicate = sv.predicate();
+	REQUIRE(!predicate('v'));
+	REQUIRE(predicate('w'));
 }
 
 TEST_CASE("Compose Function") {

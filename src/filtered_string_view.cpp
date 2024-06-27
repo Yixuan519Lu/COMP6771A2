@@ -119,4 +119,14 @@ namespace fsv {
 		}
 		return true;
 	}
+	auto operator<=>(const filtered_string_view& lhs, const filtered_string_view& rhs) -> std::strong_ordering {
+		std::size_t lhs_size = lhs.size();
+		std::size_t rhs_size = rhs.size();
+		for (std::size_t i = 0; i < std::min(lhs_size, rhs_size); i++) {
+			if (auto cmp = lhs[i] <=> rhs[i]; cmp != std::strong_ordering::equal) {
+				return cmp;
+			}
+		}
+		return lhs_size <=> rhs_size;
+	}
 } // namespace fsv
