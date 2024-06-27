@@ -105,7 +105,11 @@ TEST_CASE("Compose Function") {
 	                              [](const char&) { return true; }};
 
 	auto sv = compose(best_languages, vf);
-	REQUIRE(static_cast<std::string>(sv) == "c/c++");
+	std::ostringstream test_os_stream;
+	test_os_stream << sv;
+	REQUIRE(test_os_stream.str() == "c/c++");
+	std::string result = static_cast<std::string>(sv);
+	REQUIRE(result == "c/c++");
 }
 
 TEST_CASE("Output Stream") {
