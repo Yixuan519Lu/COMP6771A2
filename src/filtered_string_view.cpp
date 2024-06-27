@@ -78,5 +78,8 @@ namespace fsv {
 		}
 		return filtered_count;
 	}
+	bool filtered_string_view::empty() const {
+		return size() == 0;
+	}
 
 } // namespace fsv
