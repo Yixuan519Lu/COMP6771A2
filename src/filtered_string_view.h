@@ -51,6 +51,7 @@ namespace fsv {
 		bool empty() const;
 		const char* data() const;
 		const filter& predicate() const;
+		explicit operator std::string() const;
 
 	 private:
 		const char* ptr;

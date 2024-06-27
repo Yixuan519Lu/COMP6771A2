@@ -87,5 +87,14 @@ namespace fsv {
 	const filter& filtered_string_view::predicate() const {
 		return str_pred;
 	}
-
+	filtered_string_view::operator std::string() const {
+		std::string conversion;
+		conversion.reserve(str_length);
+		for (std::size_t i = 0; i < str_length; ++i) {
+			if (str_pred(ptr[i])) {
+				conversion.push_back(ptr[i]);
+			}
+		}
+		return conversion;
+	}
 } // namespace fsv
