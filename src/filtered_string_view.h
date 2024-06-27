@@ -49,6 +49,8 @@ namespace fsv {
 		const char& operator[](std::size_t n) const;
 		std::size_t size() const;
 		bool empty() const;
+		const char* data() const;
+		const filter& predicate() const;
 
 	 private:
 		const char* ptr;

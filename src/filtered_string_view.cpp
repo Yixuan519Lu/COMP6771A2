@@ -81,5 +81,11 @@ namespace fsv {
 	bool filtered_string_view::empty() const {
 		return size() == 0;
 	}
+	const char* filtered_string_view::data() const {
+		return ptr;
+	}
+	const filter& filtered_string_view::predicate() const {
+		return str_pred;
+	}
 
 } // namespace fsv
