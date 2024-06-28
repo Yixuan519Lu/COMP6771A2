@@ -130,3 +130,18 @@ TEST_CASE("Count Filtered Chars Before Index") {
 		REQUIRE(fsv.count_filtered_chars_before(25) == 3);
 	}
 }
+
+TEST_CASE("Split Function") {
+    auto interest = std::set<char>{'a', 'A', 'b', 'B', 'c', 'C', 'd', 'D', 'e', 'E', 'f', 'F', ' ', '/'};
+    auto sv = fsv::filtered_string_view{"0xDEADBEEF / 0xdeadbeef / 0xDEAD", [&interest](const char &c){ return interest.contains(c); }};
+    auto tok = fsv::filtered_string_view{" / "};
+    auto v = fsv::split(sv, tok);
+
+    std::ostringstream os1, os2, os3;
+    os1 << v[0];
+    os2 << v[1];
+	os3 << v[2];
+    REQUIRE(os1.str() == "DEADBEEF");
+    REQUIRE(os2.str() == "deadbeef");
+	REQUIRE(os3.str() == "DEAD");
+}
