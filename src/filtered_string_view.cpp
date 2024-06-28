@@ -157,14 +157,11 @@ namespace fsv {
 				}
 			}
 			if (match) {
-				if (i > offset) {
-					filtered_string_view temp(fsv.data() + offset, i - offset, fsv.predicate());
-					result.push_back(temp);
-				}
-				else {
-					filtered_string_view temp(fsv.data() + offset, 0, fsv.predicate());
-					result.push_back(temp);
-				}
+				filtered_string_view temp(
+				    fsv.data() + offset + fsv.count_filtered_chars_before(offset),
+				    i - offset + fsv.count_filtered_chars_before(i) - fsv.count_filtered_chars_before(offset),
+				    fsv.predicate());
+				result.push_back(temp);
 				offset = i + tok_size;
 				i = offset;
 			}
@@ -173,7 +170,10 @@ namespace fsv {
 			}
 		}
 		if (offset < end) {
-			filtered_string_view temp(fsv.data() + offset, end - offset, fsv.predicate());
+			filtered_string_view temp(
+			    fsv.data() + offset + fsv.count_filtered_chars_before(offset),
+			    end - offset + fsv.count_filtered_chars_before(end) - fsv.count_filtered_chars_before(offset),
+			    fsv.predicate());
 			result.push_back(temp);
 		}
 		return result;
@@ -196,10 +196,11 @@ namespace fsv {
 		if (pos >= fsv.size()) {
 			return filtered_string_view("", fsv.predicate());
 		}
-		std::size_t rcount = (count<=0)?fsv.size() - pos : count;
-        const char* start_ptr = fsv.data() + pos + fsv.count_filtered_chars_before(pos);
-        std::size_t original_length = rcount + fsv.count_filtered_chars_before(pos + rcount) - fsv.count_filtered_chars_before(pos);
-        return filtered_string_view(start_ptr, original_length, fsv.predicate());
+		std::size_t rcount = (count <= 0) ? fsv.size() - pos : count;
+		const char* start_ptr = fsv.data() + pos + fsv.count_filtered_chars_before(pos);
+		std::size_t original_length =
+		    rcount + fsv.count_filtered_chars_before(pos + rcount) - fsv.count_filtered_chars_before(pos);
+		return filtered_string_view(start_ptr, original_length, fsv.predicate());
 	}
 
 } // namespace fsv

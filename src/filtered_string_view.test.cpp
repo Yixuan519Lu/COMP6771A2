@@ -55,7 +55,7 @@ TEST_CASE("at()") {
 	auto vowels = std::set<char>{'a', 'A', 'e', 'E', 'i', 'I', 'o', 'O', 'u', 'U'};
 	auto is_vowel = [&vowels](const char& c) { return vowels.contains(c); };
 	auto sv = filtered_string_view{"Malamute", is_vowel};
-	REQUIRE(sv[0] == 'a');
+	REQUIRE(sv.at(0) == 'a');
 
 	auto sv_empty = filtered_string_view{""};
 	try {
@@ -131,17 +131,17 @@ TEST_CASE("Count Filtered Chars Before Index") {
 	}
 }
 TEST_CASE("Substr Function") {
-    auto sv = fsv::filtered_string_view{"Siberian Husky"};
-    auto result = fsv::substr(sv, 9);
-    REQUIRE(result == "Husky");
-    auto is_upper = [](const char &c) { return std::isupper(static_cast<unsigned char>(c)); };
-    auto sv_upper = fsv::filtered_string_view{"Sled Dog", is_upper};
-    auto result_upper = fsv::substr(sv_upper, 0, 2);
-    REQUIRE(result_upper == "SD");
-    auto result_out_of_range = fsv::substr(sv, 20);
-    REQUIRE(result_out_of_range == "");
-    auto result2 = fsv::substr(sv, 5, 0);
-    REQUIRE(result2 == "ian Husky");
+	auto sv = fsv::filtered_string_view{"Siberian Husky"};
+	auto result = fsv::substr(sv, 9);
+	REQUIRE(result == "Husky");
+	auto is_upper = [](const char& c) { return std::isupper(static_cast<unsigned char>(c)); };
+	auto sv_upper = fsv::filtered_string_view{"Sled Dog", is_upper};
+	auto result_upper = fsv::substr(sv_upper, 0, 2);
+	REQUIRE(result_upper == "SD");
+	auto result_out_of_range = fsv::substr(sv, 20);
+	REQUIRE(result_out_of_range == "");
+	auto result2 = fsv::substr(sv, 5, 0);
+	REQUIRE(result2 == "ian Husky");
 	auto fsv = fsv::filtered_string_view("example string with spaces", [](const char& c) { return c != ' '; });
 	auto result3 = fsv::substr(fsv, 8, 0);
 	REQUIRE(result3 == "tringwithspaces");
