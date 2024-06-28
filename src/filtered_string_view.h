@@ -15,23 +15,49 @@ namespace fsv {
 	class filtered_string_view {
 		class iter {
 		 public:
-			using MEMBER_TYPEDEFS_GO_HERE = void;
-
+			using iterator_category = std::bidirectional_iterator_tag;
+			using value_type = char;
+			using difference_type = std::ptrdiff_t;
+			using pointer = void;
+			using reference = const char&;
 			iter();
-
-			auto operator*() const -> void; // change this
-			auto operator->() const -> void; // change this
-
+			iter(const filtered_string_view* fsv, std::size_t pos);
+			auto operator*() const -> reference;
+			auto operator->() const -> pointer;
 			auto operator++() -> iter&;
 			auto operator++(int) -> iter;
 			auto operator--() -> iter&;
 			auto operator--(int) -> iter;
-
-			friend auto operator==(const iter&, const iter&) -> bool;
-			friend auto operator!=(const iter&, const iter&) -> bool;
+			friend auto operator==(const iter& lhs, const iter& rhs) -> bool;
+			friend auto operator!=(const iter& lhs, const iter& rhs) -> bool;
 
 		 private:
-			/* Implementation-specific private members */
+			const filtered_string_view* fsv;
+			std::size_t pos;
+			auto move_to_next_filtered_char() -> void;
+		};
+		class reverse_iter {
+		 public:
+			using iterator_category = std::bidirectional_iterator_tag;
+			using value_type = char;
+			using difference_type = std::ptrdiff_t;
+			using pointer = void;
+			using reference = const char&;
+			reverse_iter();
+			reverse_iter(const filtered_string_view* fsv, std::size_t pos);
+			auto operator*() const -> reference;
+			auto operator->() const -> pointer;
+			auto operator++() -> reverse_iter&;
+			auto operator++(int) -> reverse_iter;
+			auto operator--() -> reverse_iter&;
+			auto operator--(int) -> reverse_iter;
+			friend auto operator==(const reverse_iter& lhs, const reverse_iter& rhs) -> bool;
+			friend auto operator!=(const reverse_iter& lhs, const reverse_iter& rhs) -> bool;
+
+		 private:
+			const filtered_string_view* fsv;
+			std::size_t pos;
+			auto move_to_next_filtered_char() -> void;
 		};
 
 	 public:
@@ -55,6 +81,10 @@ namespace fsv {
 		const filter& predicate() const;
 		explicit operator std::string() const;
 		std::size_t count_filtered_chars_before(std::size_t index) const;
+
+		using iterator = iter;
+		auto begin() const -> iter;
+		auto end() const -> iter;
 
 	 private:
 		const char* ptr;

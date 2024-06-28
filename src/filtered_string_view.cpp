@@ -184,10 +184,10 @@ namespace fsv {
 
 		for (std::size_t i = 0; i < str_length && raw_index < index; ++i) {
 			if (!str_pred(ptr[i])) {
-				++filtered_count;
+				filtered_count++;
 			}
 			else {
-				++raw_index;
+				raw_index++;
 			}
 		}
 		return filtered_count;
