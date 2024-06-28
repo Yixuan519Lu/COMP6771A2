@@ -178,5 +178,18 @@ namespace fsv {
 		}
 		return result;
 	}
+	std::size_t filtered_string_view::count_filtered_chars_before(std::size_t index) const {
+		std::size_t filtered_count = 0;
+		std::size_t raw_index = 0;
 
+		for (std::size_t i = 0; i < str_length && raw_index < index; ++i) {
+			if (!str_pred(ptr[i])) {
+				++filtered_count;
+			}
+			else {
+				++raw_index;
+			}
+		}
+		return filtered_count;
+	}
 } // namespace fsv

@@ -118,3 +118,15 @@ TEST_CASE("Output Stream") {
 	test_os_stream << fsv;
 	REQUIRE(test_os_stream.str() == "c++");
 }
+
+TEST_CASE("Count Filtered Chars Before Index") {
+	auto fsv = fsv::filtered_string_view("example string with spaces", [](const char& c) { return c != ' '; });
+	SECTION("Count filtered characters before index in filtered string") {
+		REQUIRE(fsv.count_filtered_chars_before(0) == 0);
+		REQUIRE(fsv.count_filtered_chars_before(7) == 0);
+		REQUIRE(fsv.count_filtered_chars_before(8) == 1);
+		REQUIRE(fsv.count_filtered_chars_before(14) == 2);
+		REQUIRE(fsv.count_filtered_chars_before(19) == 3);
+		REQUIRE(fsv.count_filtered_chars_before(25) == 3);
+	}
+}

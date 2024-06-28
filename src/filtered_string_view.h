@@ -54,6 +54,7 @@ namespace fsv {
 		const char* data() const;
 		const filter& predicate() const;
 		explicit operator std::string() const;
+		std::size_t count_filtered_chars_before(std::size_t index) const;
 
 	 private:
 		const char* ptr;
