@@ -169,7 +169,7 @@ namespace fsv {
 				i++;
 			}
 		}
-		if (offset < end) {
+		if (offset <= end) {
 			filtered_string_view temp(
 			    fsv.data() + offset + fsv.count_filtered_chars_before(offset),
 			    end - offset + fsv.count_filtered_chars_before(end) - fsv.count_filtered_chars_before(offset),

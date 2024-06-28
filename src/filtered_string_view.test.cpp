@@ -161,3 +161,17 @@ TEST_CASE("Split Function") {
 	REQUIRE(os2.str() == "deadbeef");
 	REQUIRE(os3.str() == "DEAD");
 }
+
+TEST_CASE("Split Empty") {
+	auto sv = fsv::filtered_string_view{"xax"};
+	auto tok = fsv::filtered_string_view{"x"};
+	auto v = fsv::split(sv, tok);
+	auto expected = std::vector<fsv::filtered_string_view>{"", "a", ""};
+	CHECK(v == expected);
+
+	sv = fsv::filtered_string_view{"xx"};
+	tok = fsv::filtered_string_view{"x"};
+	v = fsv::split(sv, tok);
+	expected = std::vector<fsv::filtered_string_view>{"", "", ""};
+	CHECK(v == expected);
+}
