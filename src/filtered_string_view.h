@@ -40,6 +40,7 @@ namespace fsv {
 		filtered_string_view(const std::string& str, filter predicate);
 		filtered_string_view(const char* str);
 		filtered_string_view(const char* str, filter predicate);
+		filtered_string_view(const char* str, std::size_t str_len, filter predicate);
 		filtered_string_view(const filtered_string_view& other);
 		filtered_string_view(filtered_string_view&& other) noexcept;
 		filtered_string_view& operator=(const filtered_string_view& other);
@@ -59,11 +60,11 @@ namespace fsv {
 		std::size_t str_length;
 		filter str_pred;
 	};
-	filtered_string_view compose(const filtered_string_view& fsv, const std::vector<filter>& filts);
-
 	bool operator==(const filtered_string_view& lhs, const filtered_string_view& rhs);
 	auto operator<=>(const filtered_string_view& lhs, const filtered_string_view& rhs) -> std::strong_ordering;
 	auto operator<<(std::ostream& os, const filtered_string_view& fsv) -> std::ostream&;
+	filtered_string_view compose(const filtered_string_view& fsv, const std::vector<filter>& filts);
+	auto split(const filtered_string_view& fsv, const filtered_string_view& tok) -> std::vector<filtered_string_view>;
 } // namespace fsv
 
 #endif // COMP6771_ASS2_FSV_H

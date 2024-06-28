@@ -34,6 +34,10 @@ namespace fsv {
 		other.str_length = 0;
 		other.str_pred = default_predicate;
 	}
+	filtered_string_view::filtered_string_view(const char* str, std::size_t str_len, filter predicate)
+	: ptr(str)
+	, str_length(str_len)
+	, str_pred(predicate) {}
 	filtered_string_view& filtered_string_view::operator=(const filtered_string_view& other) {
 		if (this != &other) {
 			ptr = other.ptr;
@@ -55,13 +59,13 @@ namespace fsv {
 	}
 	filtered_string_view::~filtered_string_view() noexcept {}
 	const char& filtered_string_view::at(std::size_t n) const {
-		std::size_t filtered_index = 0;
+		std::size_t index = 0;
 		for (std::size_t i = 0; i < str_length; i++) {
 			if (str_pred(ptr[i])) {
-				if (filtered_index == n) {
+				if (index == n) {
 					return ptr[i];
 				}
-				filtered_index++;
+				index++;
 			}
 		}
 		throw std::domain_error("filtered_string_view::at(" + std::to_string(n) + "): invalid index");
@@ -70,13 +74,13 @@ namespace fsv {
 		return this->at(n);
 	}
 	std::size_t filtered_string_view::size() const {
-		std::size_t filtered_count = 0;
+		std::size_t count = 0;
 		for (std::size_t i = 0; i < str_length; i++) {
 			if (str_pred(ptr[i])) {
-				filtered_count++;
+				count++;
 			}
 		}
-		return filtered_count;
+		return count;
 	}
 	bool filtered_string_view::empty() const {
 		return size() == 0;
@@ -135,4 +139,40 @@ namespace fsv {
 		}
 		return os;
 	}
+	std::vector<filtered_string_view> split(const filtered_string_view& fsv, const filtered_string_view& tok) {
+		std::vector<filtered_string_view> result;
+		if (tok.empty() or fsv.empty() or fsv.size() < tok.size()) {
+			result.push_back(fsv);
+			return result;
+		}
+		std::size_t offset = 0;
+		std::size_t end = fsv.size();
+		std::size_t tok_size = tok.size();
+		for (std::size_t i = 0; i <= end - tok_size;) {
+			bool match = true;
+			for (std::size_t j = 0; j < tok_size; j++) {
+				if (fsv.at(i + j) != tok.at(j)) {
+					match = false;
+					break;
+				}
+			}
+			if (match) {
+				if (i > offset) {
+					filtered_string_view temp(fsv.data() + offset, i - offset, fsv.predicate());
+					result.push_back(temp);
+				}
+				else {
+					filtered_string_view temp(fsv.data() + offset, 0, fsv.predicate());
+					result.push_back(temp);
+				}
+				offset = i + tok_size;
+				i = offset;
+			}
+			else {
+				i++;
+			}
+		}
+		return result;
+	}
+
 } // namespace fsv
