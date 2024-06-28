@@ -192,4 +192,14 @@ namespace fsv {
 		}
 		return filtered_count;
 	}
+	filtered_string_view substr(const filtered_string_view& fsv, std::size_t pos, std::size_t count) {
+		if (pos >= fsv.size()) {
+			return filtered_string_view("", fsv.predicate());
+		}
+		std::size_t rcount = (count<=0)?fsv.size() - pos : count;
+        const char* start_ptr = fsv.data() + pos + fsv.count_filtered_chars_before(pos);
+        std::size_t original_length = rcount + fsv.count_filtered_chars_before(pos + rcount) - fsv.count_filtered_chars_before(pos);
+        return filtered_string_view(start_ptr, original_length, fsv.predicate());
+	}
+
 } // namespace fsv

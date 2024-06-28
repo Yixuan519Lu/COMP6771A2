@@ -66,6 +66,7 @@ namespace fsv {
 	auto operator<<(std::ostream& os, const filtered_string_view& fsv) -> std::ostream&;
 	filtered_string_view compose(const filtered_string_view& fsv, const std::vector<filter>& filts);
 	auto split(const filtered_string_view& fsv, const filtered_string_view& tok) -> std::vector<filtered_string_view>;
+	filtered_string_view substr(const filtered_string_view& fsv, std::size_t pos = 0, std::size_t count = 0);
 } // namespace fsv
 
 #endif // COMP6771_ASS2_FSV_H
