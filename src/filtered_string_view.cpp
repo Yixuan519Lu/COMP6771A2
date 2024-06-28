@@ -172,6 +172,10 @@ namespace fsv {
 				i++;
 			}
 		}
+		if (offset < end) {
+			filtered_string_view temp(fsv.data() + offset, end - offset, fsv.predicate());
+			result.push_back(temp);
+		}
 		return result;
 	}
 
