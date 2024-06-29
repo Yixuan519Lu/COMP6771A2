@@ -238,4 +238,40 @@ namespace fsv {
 	bool operator!=(const filtered_string_view::iter& lhs, const filtered_string_view::iter& rhs) {
 		return !(lhs == rhs);
 	}
+	filtered_string_view::const_iter::const_iter()
+	: fsv(nullptr)
+	, pos(0) {}
+	filtered_string_view::const_iter::const_iter(const filtered_string_view* fsv, std::size_t pos)
+	: fsv(fsv)
+	, pos(pos) {}
+	auto filtered_string_view::const_iter::operator*() const -> reference {
+		return fsv->at(pos);
+	}
+	auto filtered_string_view::const_iter::operator->() const -> pointer {
+		return &fsv->at(pos);
+	}
+	auto filtered_string_view::const_iter::operator++() -> const_iter& {
+		++pos;
+		return *this;
+	}
+	auto filtered_string_view::const_iter::operator++(int) -> const_iter {
+		const_iter tmp = *this;
+		++(*this);
+		return tmp;
+	}
+	auto filtered_string_view::const_iter::operator--() -> const_iter& {
+		--pos;
+		return *this;
+	}
+	auto filtered_string_view::const_iter::operator--(int) -> const_iter {
+		const_iter tmp = *this;
+		--(*this);
+		return tmp;
+	}
+	auto operator==(const filtered_string_view::const_iter& lhs, const filtered_string_view::const_iter& rhs) -> bool {
+		return lhs.fsv == rhs.fsv && lhs.pos == rhs.pos;
+	}
+	auto operator!=(const filtered_string_view::const_iter& lhs, const filtered_string_view::const_iter& rhs) -> bool {
+		return !(lhs == rhs);
+	}
 } // namespace fsv

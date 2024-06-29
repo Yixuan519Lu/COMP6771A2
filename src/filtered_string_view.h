@@ -94,6 +94,10 @@ namespace fsv {
 		auto cend() const -> const_iterator;
 		auto crbegin() const -> const_reverse_iterator;
 		auto crend() const -> const_reverse_iterator;
+		auto begin() const -> const_iterator;
+		auto end() const -> const_iterator;
+		auto rbegin() const -> const_reverse_iterator;
+		auto rend() const -> const_reverse_iterator;
 
 	 private:
 		const char* ptr;
