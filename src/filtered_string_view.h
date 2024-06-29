@@ -36,6 +36,32 @@ namespace fsv {
 			std::size_t pos;
 			auto move_to_next_filtered_char() -> void;
 		};
+		class const_iter {
+		 public:
+			using iterator_category = std::bidirectional_iterator_tag;
+			using value_type = char;
+			using difference_type = std::ptrdiff_t;
+			using pointer = void;
+			using reference = const char&;
+
+			const_iter();
+			const_iter(const filtered_string_view* fsv, std::size_t pos);
+			auto operator*() const -> reference;
+			auto operator->() const -> pointer;
+
+			auto operator++() -> const_iter&;
+			auto operator++(int) -> const_iter;
+			auto operator--() -> const_iter&;
+			auto operator--(int) -> const_iter;
+
+			friend auto operator==(const const_iter& lhs, const const_iter& rhs) -> bool;
+			friend auto operator!=(const const_iter& lhs, const const_iter& rhs) -> bool;
+
+		 private:
+			const filtered_string_view* fsv;
+			std::size_t pos;
+			void move_to_next_filtered_char();
+		};
 		class reverse_iter {
 		 public:
 			using iterator_category = std::bidirectional_iterator_tag;
@@ -83,8 +109,17 @@ namespace fsv {
 		std::size_t count_filtered_chars_before(std::size_t index) const;
 
 		using iterator = iter;
-		auto begin() const -> iter;
-		auto end() const -> iter;
+		using const_iterator = const_iter;
+		using reverse_iterator = reverse_iter;
+		using const_reverse_iterator = const_reverse_iter;
+		auto begin() -> iterator;
+		auto end() -> iterator;
+		auto rbegin() -> reverse_iterator;
+		auto rend() -> reverse_iterator;
+		auto cbegin() const -> const_iterator;
+		auto cend() const -> const_iterator;
+		auto crbegin() const -> const_reverse_iterator;
+		auto crend() const -> const_reverse_iterator;
 
 	 private:
 		const char* ptr;
