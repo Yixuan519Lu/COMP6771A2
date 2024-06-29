@@ -29,8 +29,8 @@ namespace fsv {
 			iter operator++(int);
 			iter& operator--();
 			iter operator--(int);
-			friend bool operator==(const iter& lhs, const iter& rhs);
-			friend bool operator!=(const iter& lhs, const iter& rhs);
+			friend auto operator==(const iter& lhs, const iter& rhs) -> bool;
+			friend auto operator!=(const iter& lhs, const iter& rhs) -> bool;
 
 		 private:
 			const filtered_string_view* fsv;
@@ -43,17 +43,14 @@ namespace fsv {
 			using difference_type = std::ptrdiff_t;
 			using pointer = const char*;
 			using reference = const char&;
-
 			const_iter();
 			const_iter(const filtered_string_view* fsv, std::size_t pos);
 			auto operator*() const -> reference;
 			auto operator->() const -> pointer;
-
 			auto operator++() -> const_iter&;
 			auto operator++(int) -> const_iter;
 			auto operator--() -> const_iter&;
 			auto operator--(int) -> const_iter;
-
 			friend auto operator==(const const_iter& lhs, const const_iter& rhs) -> bool;
 			friend auto operator!=(const const_iter& lhs, const const_iter& rhs) -> bool;
 
@@ -69,19 +66,18 @@ namespace fsv {
 		filtered_string_view(const char* str, std::size_t str_len, filter predicate);
 		filtered_string_view(const filtered_string_view& other);
 		filtered_string_view(filtered_string_view&& other) noexcept;
-		filtered_string_view& operator=(const filtered_string_view& other);
-		filtered_string_view& operator=(filtered_string_view&& other) noexcept;
+		auto operator=(const filtered_string_view& other) -> filtered_string_view&;
+		auto operator=(filtered_string_view&& other) noexcept -> filtered_string_view&;
 		~filtered_string_view();
 		static filter default_predicate;
-		const char& at(std::size_t n) const;
-		const char& operator[](std::size_t n) const;
-		std::size_t size() const;
-		bool empty() const;
-		const char* data() const;
-		const filter& predicate() const;
+		auto at(std::size_t n) const -> const char&;
+		auto operator[](std::size_t n) const -> const char&;
+		auto size() const -> std::size_t;
+		auto empty() const -> bool;
+		auto data() const -> const char*;
+		auto predicate() const -> const filter&;
 		explicit operator std::string() const;
-		std::size_t count_filtered_chars_before(std::size_t index) const;
-
+		auto count_filtered_chars_before(std::size_t index) const -> std::size_t;
 		using iterator = iter;
 		using const_iterator = const_iter;
 		using reverse_iterator = std::reverse_iterator<iterator>;
@@ -104,13 +100,11 @@ namespace fsv {
 		std::size_t str_length;
 		filter str_pred;
 	};
-	bool operator==(const filtered_string_view& lhs, const filtered_string_view& rhs);
+	auto operator==(const filtered_string_view& lhs, const filtered_string_view& rhs) -> bool;
 	auto operator<=>(const filtered_string_view& lhs, const filtered_string_view& rhs) -> std::strong_ordering;
 	auto operator<<(std::ostream& os, const filtered_string_view& fsv) -> std::ostream&;
-	filtered_string_view compose(const filtered_string_view& fsv, const std::vector<filter>& filts);
+	auto compose(const filtered_string_view& fsv, const std::vector<filter>& filts) -> filtered_string_view;
 	auto split(const filtered_string_view& fsv, const filtered_string_view& tok) -> std::vector<filtered_string_view>;
-	filtered_string_view substr(const filtered_string_view& fsv, std::size_t pos = 0, std::size_t count = 0);
-
+	auto substr(const filtered_string_view& fsv, std::size_t pos = 0, std::size_t count = 0) -> filtered_string_view;
 } // namespace fsv
-
 #endif // COMP6771_ASS2_FSV_H

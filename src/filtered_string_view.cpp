@@ -38,7 +38,7 @@ namespace fsv {
 	: ptr(str)
 	, str_length(str_len)
 	, str_pred(predicate) {}
-	filtered_string_view& filtered_string_view::operator=(const filtered_string_view& other) {
+	auto filtered_string_view::operator=(const filtered_string_view& other) -> filtered_string_view& {
 		if (this != &other) {
 			ptr = other.ptr;
 			str_length = other.str_length;
@@ -46,7 +46,7 @@ namespace fsv {
 		}
 		return *this;
 	}
-	filtered_string_view& filtered_string_view::operator=(filtered_string_view&& other) noexcept {
+	auto filtered_string_view::operator=(filtered_string_view&& other) noexcept -> filtered_string_view& {
 		if (this != &other) {
 			ptr = other.ptr;
 			str_length = other.str_length;
@@ -58,7 +58,7 @@ namespace fsv {
 		return *this;
 	}
 	filtered_string_view::~filtered_string_view() noexcept {}
-	const char& filtered_string_view::at(std::size_t n) const {
+	auto filtered_string_view::at(std::size_t n) const -> const char& {
 		std::size_t index = 0;
 		for (std::size_t i = 0; i < str_length; i++) {
 			if (str_pred(ptr[i])) {
@@ -70,10 +70,10 @@ namespace fsv {
 		}
 		throw std::domain_error("filtered_string_view::at(" + std::to_string(n) + "): invalid index");
 	}
-	const char& filtered_string_view::operator[](std::size_t n) const {
+	auto filtered_string_view::operator[](std::size_t n) const -> const char& {
 		return this->at(n);
 	}
-	std::size_t filtered_string_view::size() const {
+	auto filtered_string_view::size() const -> std::size_t {
 		std::size_t count = 0;
 		for (std::size_t i = 0; i < str_length; i++) {
 			if (str_pred(ptr[i])) {
@@ -82,13 +82,13 @@ namespace fsv {
 		}
 		return count;
 	}
-	bool filtered_string_view::empty() const {
+	auto filtered_string_view::empty() const -> bool {
 		return size() == 0;
 	}
-	const char* filtered_string_view::data() const {
+	auto filtered_string_view::data() const -> const char* {
 		return ptr;
 	}
-	const filter& filtered_string_view::predicate() const {
+	auto filtered_string_view::predicate() const -> const filter& {
 		return str_pred;
 	}
 	filtered_string_view::operator std::string() const {
@@ -101,7 +101,7 @@ namespace fsv {
 		}
 		return conversion;
 	}
-	filtered_string_view compose(const filtered_string_view& fsv, const std::vector<filter>& filts) {
+	auto compose(const filtered_string_view& fsv, const std::vector<filter>& filts) -> filtered_string_view {
 		auto composed = [filts](const char& input_char) {
 			for (const auto& filt : filts) {
 				if (not filt(input_char)) {
@@ -112,7 +112,7 @@ namespace fsv {
 		};
 		return filtered_string_view(fsv.data(), composed);
 	}
-	bool operator==(const filtered_string_view& lhs, const filtered_string_view& rhs) {
+	auto operator==(const filtered_string_view& lhs, const filtered_string_view& rhs) -> bool {
 		if (lhs.size() != rhs.size()) {
 			return false;
 		}
@@ -139,7 +139,7 @@ namespace fsv {
 		}
 		return os;
 	}
-	std::vector<filtered_string_view> split(const filtered_string_view& fsv, const filtered_string_view& tok) {
+	auto split(const filtered_string_view& fsv, const filtered_string_view& tok) -> std::vector<filtered_string_view> {
 		std::vector<filtered_string_view> result;
 		if (tok.empty() or fsv.empty() or fsv.size() < tok.size()) {
 			result.push_back(fsv);
@@ -178,10 +178,9 @@ namespace fsv {
 		}
 		return result;
 	}
-	std::size_t filtered_string_view::count_filtered_chars_before(std::size_t index) const {
+	auto filtered_string_view::count_filtered_chars_before(std::size_t index) const -> std::size_t {
 		std::size_t filtered_count = 0;
 		std::size_t raw_index = 0;
-
 		for (std::size_t i = 0; i < str_length && raw_index < index; ++i) {
 			if (!str_pred(ptr[i])) {
 				filtered_count++;
@@ -192,7 +191,7 @@ namespace fsv {
 		}
 		return filtered_count;
 	}
-	filtered_string_view substr(const filtered_string_view& fsv, std::size_t pos, std::size_t count) {
+	auto substr(const filtered_string_view& fsv, std::size_t pos, std::size_t count) -> filtered_string_view {
 		if (pos >= fsv.size()) {
 			return filtered_string_view("", fsv.predicate());
 		}
@@ -208,34 +207,34 @@ namespace fsv {
 	filtered_string_view::iter::iter(const filtered_string_view* fsv, std::size_t pos)
 	: fsv(fsv)
 	, pos(pos) {}
-	filtered_string_view::iter::reference filtered_string_view::iter::operator*() const {
+	auto filtered_string_view::iter::operator*() const -> reference {
 		return fsv->at(pos);
 	}
-	filtered_string_view::iter::pointer filtered_string_view::iter::operator->() const {
+	auto filtered_string_view::iter::operator->() const -> pointer {
 		return &fsv->at(pos);
 	}
-	filtered_string_view::iter& filtered_string_view::iter::operator++() {
+	auto filtered_string_view::iter::operator++() -> iter& {
 		++pos;
 		return *this;
 	}
-	filtered_string_view::iter filtered_string_view::iter::operator++(int) {
-		iter tmp = *this;
+	auto filtered_string_view::iter::operator++(int) -> iter {
+		auto tmp = *this;
 		++(*this);
 		return tmp;
 	}
-	filtered_string_view::iter& filtered_string_view::iter::operator--() {
+	auto filtered_string_view::iter::operator--() -> iter& {
 		--pos;
 		return *this;
 	}
-	filtered_string_view::iter filtered_string_view::iter::operator--(int) {
-		iter tmp = *this;
+	auto filtered_string_view::iter::operator--(int) -> iter {
+		auto tmp = *this;
 		--(*this);
 		return tmp;
 	}
-	bool operator==(const filtered_string_view::iter& lhs, const filtered_string_view::iter& rhs) {
-		return lhs.fsv == rhs.fsv && lhs.pos == rhs.pos;
+	auto operator==(const filtered_string_view::iter& lhs, const filtered_string_view::iter& rhs) -> bool {
+		return lhs.fsv == rhs.fsv and lhs.pos == rhs.pos;
 	}
-	bool operator!=(const filtered_string_view::iter& lhs, const filtered_string_view::iter& rhs) {
+	auto operator!=(const filtered_string_view::iter& lhs, const filtered_string_view::iter& rhs) -> bool {
 		return !(lhs == rhs);
 	}
 	filtered_string_view::const_iter::const_iter()
@@ -255,7 +254,7 @@ namespace fsv {
 		return *this;
 	}
 	auto filtered_string_view::const_iter::operator++(int) -> const_iter {
-		const_iter tmp = *this;
+		auto const tmp = *this;
 		++(*this);
 		return tmp;
 	}
@@ -264,12 +263,12 @@ namespace fsv {
 		return *this;
 	}
 	auto filtered_string_view::const_iter::operator--(int) -> const_iter {
-		const_iter tmp = *this;
+		auto const tmp = *this;
 		--(*this);
 		return tmp;
 	}
 	auto operator==(const filtered_string_view::const_iter& lhs, const filtered_string_view::const_iter& rhs) -> bool {
-		return lhs.fsv == rhs.fsv && lhs.pos == rhs.pos;
+		return lhs.fsv == rhs.fsv and lhs.pos == rhs.pos;
 	}
 	auto operator!=(const filtered_string_view::const_iter& lhs, const filtered_string_view::const_iter& rhs) -> bool {
 		return !(lhs == rhs);
