@@ -202,5 +202,40 @@ namespace fsv {
 		    rcount + fsv.count_filtered_chars_before(pos + rcount) - fsv.count_filtered_chars_before(pos);
 		return filtered_string_view(start_ptr, original_length, fsv.predicate());
 	}
-
+	filtered_string_view::iter::iter()
+	: fsv(nullptr)
+	, pos(0) {}
+	filtered_string_view::iter::iter(const filtered_string_view* fsv, std::size_t pos)
+	: fsv(fsv)
+	, pos(pos) {}
+	filtered_string_view::iter::reference filtered_string_view::iter::operator*() const {
+		return fsv->at(pos);
+	}
+	filtered_string_view::iter::pointer filtered_string_view::iter::operator->() const {
+		return &fsv->at(pos);
+	}
+	filtered_string_view::iter& filtered_string_view::iter::operator++() {
+		++pos;
+		return *this;
+	}
+	filtered_string_view::iter filtered_string_view::iter::operator++(int) {
+		iter tmp = *this;
+		++(*this);
+		return tmp;
+	}
+	filtered_string_view::iter& filtered_string_view::iter::operator--() {
+		--pos;
+		return *this;
+	}
+	filtered_string_view::iter filtered_string_view::iter::operator--(int) {
+		iter tmp = *this;
+		--(*this);
+		return tmp;
+	}
+	bool operator==(const filtered_string_view::iter& lhs, const filtered_string_view::iter& rhs) {
+		return lhs.fsv == rhs.fsv && lhs.pos == rhs.pos;
+	}
+	bool operator!=(const filtered_string_view::iter& lhs, const filtered_string_view::iter& rhs) {
+		return !(lhs == rhs);
+	}
 } // namespace fsv

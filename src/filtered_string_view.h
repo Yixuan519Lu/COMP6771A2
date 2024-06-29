@@ -13,12 +13,13 @@
 namespace fsv {
 	using filter = std::function<bool(const char&)>;
 	class filtered_string_view {
+	 public:
 		class iter {
 		 public:
 			using iterator_category = std::bidirectional_iterator_tag;
 			using value_type = char;
 			using difference_type = std::ptrdiff_t;
-			using pointer = void;
+			using pointer = const char*;
 			using reference = const char&;
 			iter();
 			iter(const filtered_string_view* fsv, std::size_t pos);
@@ -60,8 +61,6 @@ namespace fsv {
 			const filtered_string_view* fsv;
 			std::size_t pos;
 		};
-
-	 public:
 		filtered_string_view();
 		filtered_string_view(const std::string& str);
 		filtered_string_view(const std::string& str, filter predicate);
@@ -107,6 +106,7 @@ namespace fsv {
 	filtered_string_view compose(const filtered_string_view& fsv, const std::vector<filter>& filts);
 	auto split(const filtered_string_view& fsv, const filtered_string_view& tok) -> std::vector<filtered_string_view>;
 	filtered_string_view substr(const filtered_string_view& fsv, std::size_t pos = 0, std::size_t count = 0);
+
 } // namespace fsv
 
 #endif // COMP6771_ASS2_FSV_H
