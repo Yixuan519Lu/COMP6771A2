@@ -40,7 +40,7 @@ namespace fsv {
 			using iterator_category = std::bidirectional_iterator_tag;
 			using value_type = char;
 			using difference_type = std::ptrdiff_t;
-			using pointer = void;
+			using pointer = const char*;
 			using reference = const char&;
 
 			const_iter();
@@ -59,7 +59,6 @@ namespace fsv {
 		 private:
 			const filtered_string_view* fsv;
 			std::size_t pos;
-			void move_to_next_filtered_char();
 		};
 
 	 public:
@@ -86,8 +85,8 @@ namespace fsv {
 
 		using iterator = iter;
 		using const_iterator = const_iter;
-		using reverse_iterator = reverse_iter;
-		using const_reverse_iterator = const_reverse_iter;
+		using reverse_iterator = std::reverse_iterator<iterator>;
+		using const_reverse_iterator = std::reverse_iterator<const_iterator>;
 		auto begin() -> iterator;
 		auto end() -> iterator;
 		auto rbegin() -> reverse_iterator;
