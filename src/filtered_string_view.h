@@ -22,19 +22,18 @@ namespace fsv {
 			using reference = const char&;
 			iter();
 			iter(const filtered_string_view* fsv, std::size_t pos);
-			auto operator*() const -> reference;
-			auto operator->() const -> pointer;
-			auto operator++() -> iter&;
-			auto operator++(int) -> iter;
-			auto operator--() -> iter&;
-			auto operator--(int) -> iter;
-			friend auto operator==(const iter& lhs, const iter& rhs) -> bool;
-			friend auto operator!=(const iter& lhs, const iter& rhs) -> bool;
+			reference operator*() const;
+			pointer operator->() const;
+			iter& operator++();
+			iter operator++(int);
+			iter& operator--();
+			iter operator--(int);
+			friend bool operator==(const iter& lhs, const iter& rhs);
+			friend bool operator!=(const iter& lhs, const iter& rhs);
 
 		 private:
 			const filtered_string_view* fsv;
 			std::size_t pos;
-			auto move_to_next_filtered_char() -> void;
 		};
 		class const_iter {
 		 public:
@@ -56,55 +55,6 @@ namespace fsv {
 
 			friend auto operator==(const const_iter& lhs, const const_iter& rhs) -> bool;
 			friend auto operator!=(const const_iter& lhs, const const_iter& rhs) -> bool;
-
-		 private:
-			const filtered_string_view* fsv;
-			std::size_t pos;
-			void move_to_next_filtered_char();
-		};
-		class reverse_iter {
-		 public:
-			using iterator_category = std::bidirectional_iterator_tag;
-			using value_type = char;
-			using difference_type = std::ptrdiff_t;
-			using pointer = void;
-			using reference = const char&;
-			reverse_iter();
-			reverse_iter(const filtered_string_view* fsv, std::size_t pos);
-			auto operator*() const -> reference;
-			auto operator->() const -> pointer;
-			auto operator++() -> reverse_iter&;
-			auto operator++(int) -> reverse_iter;
-			auto operator--() -> reverse_iter&;
-			auto operator--(int) -> reverse_iter;
-			friend auto operator==(const reverse_iter& lhs, const reverse_iter& rhs) -> bool;
-			friend auto operator!=(const reverse_iter& lhs, const reverse_iter& rhs) -> bool;
-
-		 private:
-			const filtered_string_view* fsv;
-			std::size_t pos;
-			auto move_to_next_filtered_char() -> void;
-		};
-		class const_reverse_iter {
-		 public:
-			using iterator_category = std::bidirectional_iterator_tag;
-			using value_type = char;
-			using difference_type = std::ptrdiff_t;
-			using pointer = void;
-			using reference = const char&;
-
-			const_reverse_iter();
-			const_reverse_iter(const filtered_string_view* fsv, std::size_t pos);
-			auto operator*() const -> reference;
-			auto operator->() const -> pointer;
-
-			auto operator++() -> const_reverse_iter&;
-			auto operator++(int) -> const_reverse_iter;
-			auto operator--() -> const_reverse_iter&;
-			auto operator--(int) -> const_reverse_iter;
-
-			friend auto operator==(const const_reverse_iter& lhs, const const_reverse_iter& rhs) -> bool;
-			friend auto operator!=(const const_reverse_iter& lhs, const const_reverse_iter& rhs) -> bool;
 
 		 private:
 			const filtered_string_view* fsv;
