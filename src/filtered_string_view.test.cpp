@@ -175,3 +175,18 @@ TEST_CASE("Split Empty") {
 	expected = std::vector<fsv::filtered_string_view>{"", "", ""};
 	CHECK(v == expected);
 }
+
+TEST_CASE("Filtered String View Iterator") {
+	const auto s1 = fsv::filtered_string_view{"puppy", [](const char& c) { return !(c == 'u' || c == 'y'); }};
+	auto v1 = std::vector<char>{s1.begin(), s1.end()};
+	REQUIRE(v1.size() == 3);
+	CHECK(v1[0] == 'p');
+	CHECK(v1[1] == 'p');
+	CHECK(v1[2] == 'p');
+
+	const auto s2 = fsv::filtered_string_view{"milo", [](const char& c) { return !(c == 'i' || c == 'o'); }};
+	auto v2 = std::vector<char>{s2.rbegin(), s2.rend()};
+	REQUIRE(v2.size() == 2);
+	CHECK(v2[0] == 'l');
+	CHECK(v2[1] == 'm');
+}
