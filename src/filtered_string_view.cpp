@@ -274,4 +274,40 @@ namespace fsv {
 	auto operator!=(const filtered_string_view::const_iter& lhs, const filtered_string_view::const_iter& rhs) -> bool {
 		return !(lhs == rhs);
 	}
+	auto filtered_string_view::begin() -> iterator {
+		return iterator(this, 0);
+	}
+	auto filtered_string_view::end() -> iterator {
+		return iterator(this, size());
+	}
+	auto filtered_string_view::rbegin() -> reverse_iterator {
+		return reverse_iterator(end());
+	}
+	auto filtered_string_view::rend() -> reverse_iterator {
+		return reverse_iterator(begin());
+	}
+	auto filtered_string_view::cbegin() const -> const_iterator {
+		return const_iterator(this, 0);
+	}
+	auto filtered_string_view::cend() const -> const_iterator {
+		return const_iterator(this, size());
+	}
+	auto filtered_string_view::crbegin() const -> const_reverse_iterator {
+		return const_reverse_iterator(cend());
+	}
+	auto filtered_string_view::crend() const -> const_reverse_iterator {
+		return const_reverse_iterator(cbegin());
+	}
+	auto filtered_string_view::begin() const -> const_iterator {
+		return cbegin();
+	}
+	auto filtered_string_view::end() const -> const_iterator {
+		return cend();
+	}
+	auto filtered_string_view::rbegin() const -> const_reverse_iterator {
+		return crbegin();
+	}
+	auto filtered_string_view::rend() const -> const_reverse_iterator {
+		return crend();
+	}
 } // namespace fsv
