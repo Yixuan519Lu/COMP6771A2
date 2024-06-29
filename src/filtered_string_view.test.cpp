@@ -190,3 +190,32 @@ TEST_CASE("Filtered String View Iterator") {
 	CHECK(v2[0] == 'l');
 	CHECK(v2[1] == 'm');
 }
+
+TEST_CASE("With default predicate") {
+	auto fsv1 = fsv::filtered_string_view{"corgi"};
+	std::ostringstream output;
+	std::copy(fsv1.begin(), fsv1.end(), std::ostream_iterator<char>(output, " "));
+	CHECK(output.str() == "c o r g i ");
+}
+
+TEST_CASE("With predicate which removes lowercase vowels") {
+	auto fsv = fsv::filtered_string_view{"samoyed", [](const char& c) {
+		                                     return !(c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u');
+	                                     }};
+	auto it = fsv.begin();
+	CHECK(*it == 's');
+	CHECK(*std::next(it) == 'm');
+	CHECK(*std::next(it, 2) == 'y');
+	CHECK(*std::next(it, 3) == 'd');
+}
+
+TEST_CASE("Reverse with predicate which removes lowercase vowels") {
+	auto fsv = fsv::filtered_string_view{"samoyed", [](const char& c) {
+		                                     return !(c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u');
+	                                     }};
+	auto it = fsv.cend();
+	CHECK(*std::prev(it) == 'd');
+	CHECK(*std::prev(it, 2) == 'y');
+	CHECK(*std::prev(it, 3) == 'm');
+	CHECK(*std::prev(it, 4) == 's');
+}
