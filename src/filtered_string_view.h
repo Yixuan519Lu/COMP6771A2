@@ -23,12 +23,12 @@ namespace fsv {
 			using reference = const char&;
 			iter();
 			iter(const filtered_string_view* fsv, std::size_t pos);
-			reference operator*() const;
-			pointer operator->() const;
-			iter& operator++();
-			iter operator++(int);
-			iter& operator--();
-			iter operator--(int);
+			auto operator*() const -> reference;
+			auto operator->() const -> pointer;
+			auto operator++() -> iter&;
+			auto operator++(int) -> iter;
+			auto operator--() -> iter&;
+			auto operator--(int) -> iter;
 			friend auto operator==(const iter& lhs, const iter& rhs) -> bool;
 			friend auto operator!=(const iter& lhs, const iter& rhs) -> bool;
 
