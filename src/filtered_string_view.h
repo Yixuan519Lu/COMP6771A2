@@ -67,14 +67,14 @@ namespace fsv {
 		};
 
 	 public:
-		filtered_string_view();
-		filtered_string_view(const std::string& str);
-		filtered_string_view(const std::string& str, filter predicate);
-		filtered_string_view(const char* str);
-		filtered_string_view(const char* str, filter predicate);
-		filtered_string_view(const char* str, std::size_t str_len, filter predicate);
-		filtered_string_view(const filtered_string_view& other);
-		filtered_string_view(filtered_string_view&& other);
+		filtered_string_view() noexcept;
+		filtered_string_view(const std::string& str) noexcept;
+		filtered_string_view(const std::string& str, filter predicate) noexcept;
+		filtered_string_view(const char* str) noexcept;
+		filtered_string_view(const char* str, filter predicate) noexcept;
+		filtered_string_view(const char* str, std::size_t str_len, filter predicate) noexcept;
+		filtered_string_view(const filtered_string_view& other) noexcept;
+		filtered_string_view(filtered_string_view&& other) noexcept;
 		auto operator=(const filtered_string_view& other) -> filtered_string_view&;
 		auto operator=(filtered_string_view&& other) -> filtered_string_view&;
 		~filtered_string_view();

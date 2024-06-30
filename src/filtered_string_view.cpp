@@ -2,31 +2,31 @@
 
 namespace fsv {
 	filter filtered_string_view::default_predicate = [](const char&) noexcept { return true; };
-	filtered_string_view::filtered_string_view()
+	filtered_string_view::filtered_string_view() noexcept
 	: ptr(nullptr)
 	, str_length(0)
 	, str_pred(default_predicate) {}
-	filtered_string_view::filtered_string_view(const std::string& str)
+	filtered_string_view::filtered_string_view(const std::string& str) noexcept
 	: ptr(str.data())
 	, str_length(str.size())
 	, str_pred(default_predicate) {}
-	filtered_string_view::filtered_string_view(const std::string& str, filter predicate)
+	filtered_string_view::filtered_string_view(const std::string& str, filter predicate) noexcept
 	: ptr(str.data())
 	, str_length(str.size())
 	, str_pred(predicate) {}
-	filtered_string_view::filtered_string_view(const char* str)
+	filtered_string_view::filtered_string_view(const char* str) noexcept
 	: ptr(str)
 	, str_length(std::strlen(str))
 	, str_pred(default_predicate) {}
-	filtered_string_view::filtered_string_view(const char* str, filter predicate)
+	filtered_string_view::filtered_string_view(const char* str, filter predicate) noexcept
 	: ptr(str)
 	, str_length(std::strlen(str))
 	, str_pred(predicate) {}
-	filtered_string_view::filtered_string_view(const filtered_string_view& other)
+	filtered_string_view::filtered_string_view(const filtered_string_view& other) noexcept
 	: ptr(other.ptr)
 	, str_length(other.str_length)
 	, str_pred(other.str_pred) {}
-	filtered_string_view::filtered_string_view(filtered_string_view&& other)
+	filtered_string_view::filtered_string_view(filtered_string_view&& other) noexcept
 	: ptr(other.ptr)
 	, str_length(other.str_length)
 	, str_pred(std::move(other.str_pred)) {
@@ -34,7 +34,7 @@ namespace fsv {
 		other.str_length = 0;
 		other.str_pred = default_predicate;
 	}
-	filtered_string_view::filtered_string_view(const char* str, std::size_t str_len, filter predicate)
+	filtered_string_view::filtered_string_view(const char* str, std::size_t str_len, filter predicate) noexcept
 	: ptr(str)
 	, str_length(str_len)
 	, str_pred(predicate) {}
