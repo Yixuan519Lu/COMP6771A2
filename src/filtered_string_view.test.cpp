@@ -219,3 +219,7 @@ TEST_CASE("Reverse with predicate which removes lowercase vowels") {
 	CHECK(*std::prev(it, 3) == 'm');
 	CHECK(*std::prev(it, 4) == 's');
 }
+
+TEST_CASE("Check if constructors are noexcept") {
+	static_assert(noexcept(fsv::filtered_string_view()), "Default constructor is not noexcept");
+}
