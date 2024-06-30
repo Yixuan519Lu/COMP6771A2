@@ -82,18 +82,14 @@ namespace fsv {
 		using const_iterator = const_iter;
 		using reverse_iterator = std::reverse_iterator<iterator>;
 		using const_reverse_iterator = std::reverse_iterator<const_iterator>;
-		auto begin() -> iterator;
-		auto end() -> iterator;
-		auto rbegin() -> reverse_iterator;
-		auto rend() -> reverse_iterator;
+		auto begin() const -> iterator;
+		auto end() const -> iterator;
+		auto rbegin() const -> reverse_iterator;
+		auto rend() const -> reverse_iterator;
 		auto cbegin() const -> const_iterator;
 		auto cend() const -> const_iterator;
 		auto crbegin() const -> const_reverse_iterator;
 		auto crend() const -> const_reverse_iterator;
-		auto begin() const -> const_iterator;
-		auto end() const -> const_iterator;
-		auto rbegin() const -> const_reverse_iterator;
-		auto rend() const -> const_reverse_iterator;
 
 	 private:
 		const char* ptr;
