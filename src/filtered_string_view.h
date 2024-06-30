@@ -20,8 +20,8 @@ namespace fsv {
 			using difference_type = std::ptrdiff_t;
 			using pointer = const char*;
 			using reference = const char&;
-			iter();
-			iter(const filtered_string_view* fsv, std::size_t pos);
+			iter() noexcept;
+			iter(const filtered_string_view* fsv, std::size_t pos) noexcept;
 			auto operator*() const -> reference;
 			auto operator->() const -> pointer;
 			auto operator++() -> iter&;
@@ -46,8 +46,8 @@ namespace fsv {
 			using difference_type = std::ptrdiff_t;
 			using pointer = const char*;
 			using reference = const char&;
-			const_iter();
-			const_iter(const filtered_string_view* fsv, std::size_t pos);
+			const_iter() noexcept;
+			const_iter(const filtered_string_view* fsv, std::size_t pos) noexcept;
 			auto operator*() const -> reference;
 			auto operator->() const -> pointer;
 			auto operator++() -> const_iter&;

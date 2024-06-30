@@ -201,10 +201,10 @@ namespace fsv {
 		    rcount + fsv.count_filtered_chars_before(pos + rcount) - fsv.count_filtered_chars_before(pos);
 		return filtered_string_view(start_ptr, original_length, fsv.predicate());
 	}
-	filtered_string_view::iter::iter()
+	filtered_string_view::iter::iter() noexcept
 	: fsv(nullptr)
 	, pos(0) {}
-	filtered_string_view::iter::iter(const filtered_string_view* fsv, std::size_t pos)
+	filtered_string_view::iter::iter(const filtered_string_view* fsv, std::size_t pos) noexcept
 	: fsv(fsv)
 	, pos(pos) {}
 	auto filtered_string_view::iter::operator*() const -> reference {
@@ -231,10 +231,10 @@ namespace fsv {
 		--(*this);
 		return tmp;
 	}
-	filtered_string_view::const_iter::const_iter()
+	filtered_string_view::const_iter::const_iter() noexcept
 	: fsv(nullptr)
 	, pos(0) {}
-	filtered_string_view::const_iter::const_iter(const filtered_string_view* fsv, std::size_t pos)
+	filtered_string_view::const_iter::const_iter(const filtered_string_view* fsv, std::size_t pos) noexcept
 	: fsv(fsv)
 	, pos(pos) {}
 	auto filtered_string_view::const_iter::operator*() const -> reference {
