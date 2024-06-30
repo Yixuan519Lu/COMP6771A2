@@ -13,7 +13,6 @@
 namespace fsv {
 	using filter = std::function<bool(const char&)>;
 	class filtered_string_view {
-	 public:
 		class iter {
 		 public:
 			using iterator_category = std::bidirectional_iterator_tag;
@@ -29,8 +28,12 @@ namespace fsv {
 			auto operator++(int) -> iter;
 			auto operator--() -> iter&;
 			auto operator--(int) -> iter;
-			friend auto operator==(const iter& lhs, const iter& rhs) -> bool;
-			friend auto operator!=(const iter& lhs, const iter& rhs) -> bool;
+			friend auto operator==(const iter& lhs, const iter& rhs) -> bool {
+				return lhs.fsv == rhs.fsv and lhs.pos == rhs.pos;
+			}
+			friend auto operator!=(const iter& lhs, const iter& rhs) -> bool {
+				return !(lhs == rhs);
+			}
 
 		 private:
 			const filtered_string_view* fsv;
@@ -51,13 +54,19 @@ namespace fsv {
 			auto operator++(int) -> const_iter;
 			auto operator--() -> const_iter&;
 			auto operator--(int) -> const_iter;
-			friend auto operator==(const const_iter& lhs, const const_iter& rhs) -> bool;
-			friend auto operator!=(const const_iter& lhs, const const_iter& rhs) -> bool;
+			friend auto operator==(const const_iter& lhs, const const_iter& rhs) -> bool {
+				return lhs.fsv == rhs.fsv and lhs.pos == rhs.pos;
+			}
+			friend auto operator!=(const const_iter& lhs, const const_iter& rhs) -> bool {
+				return !(lhs == rhs);
+			}
 
 		 private:
 			const filtered_string_view* fsv;
 			std::size_t pos;
 		};
+
+	 public:
 		filtered_string_view();
 		filtered_string_view(const std::string& str);
 		filtered_string_view(const std::string& str, filter predicate);
@@ -65,9 +74,9 @@ namespace fsv {
 		filtered_string_view(const char* str, filter predicate);
 		filtered_string_view(const char* str, std::size_t str_len, filter predicate);
 		filtered_string_view(const filtered_string_view& other);
-		filtered_string_view(filtered_string_view&& other) noexcept;
+		filtered_string_view(filtered_string_view&& other);
 		auto operator=(const filtered_string_view& other) -> filtered_string_view&;
-		auto operator=(filtered_string_view&& other) noexcept -> filtered_string_view&;
+		auto operator=(filtered_string_view&& other) -> filtered_string_view&;
 		~filtered_string_view();
 		static filter default_predicate;
 		auto at(std::size_t n) const -> const char&;

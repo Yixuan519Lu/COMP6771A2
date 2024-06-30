@@ -26,7 +26,7 @@ namespace fsv {
 	: ptr(other.ptr)
 	, str_length(other.str_length)
 	, str_pred(other.str_pred) {}
-	filtered_string_view::filtered_string_view(filtered_string_view&& other) noexcept
+	filtered_string_view::filtered_string_view(filtered_string_view&& other)
 	: ptr(other.ptr)
 	, str_length(other.str_length)
 	, str_pred(std::move(other.str_pred)) {
@@ -46,7 +46,7 @@ namespace fsv {
 		}
 		return *this;
 	}
-	auto filtered_string_view::operator=(filtered_string_view&& other) noexcept -> filtered_string_view& {
+	auto filtered_string_view::operator=(filtered_string_view&& other) -> filtered_string_view& {
 		if (this != &other) {
 			ptr = other.ptr;
 			str_length = other.str_length;
@@ -57,7 +57,7 @@ namespace fsv {
 		}
 		return *this;
 	}
-	filtered_string_view::~filtered_string_view() noexcept {}
+	filtered_string_view::~filtered_string_view() {}
 	auto filtered_string_view::at(std::size_t n) const -> const char& {
 		std::size_t index = 0;
 		for (std::size_t i = 0; i < str_length; i++) {
@@ -231,12 +231,6 @@ namespace fsv {
 		--(*this);
 		return tmp;
 	}
-	auto operator==(const filtered_string_view::iter& lhs, const filtered_string_view::iter& rhs) -> bool {
-		return lhs.fsv == rhs.fsv and lhs.pos == rhs.pos;
-	}
-	auto operator!=(const filtered_string_view::iter& lhs, const filtered_string_view::iter& rhs) -> bool {
-		return !(lhs == rhs);
-	}
 	filtered_string_view::const_iter::const_iter()
 	: fsv(nullptr)
 	, pos(0) {}
@@ -266,12 +260,6 @@ namespace fsv {
 		auto const tmp = *this;
 		--(*this);
 		return tmp;
-	}
-	auto operator==(const filtered_string_view::const_iter& lhs, const filtered_string_view::const_iter& rhs) -> bool {
-		return lhs.fsv == rhs.fsv and lhs.pos == rhs.pos;
-	}
-	auto operator!=(const filtered_string_view::const_iter& lhs, const filtered_string_view::const_iter& rhs) -> bool {
-		return !(lhs == rhs);
 	}
 	auto filtered_string_view::begin() const -> iterator {
 		return iterator(this, 0);
