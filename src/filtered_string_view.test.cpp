@@ -59,7 +59,7 @@ TEST_CASE("at()") {
 
 	auto sv_empty = filtered_string_view{""};
 	try {
-		sv_empty.at(0);
+		[[maybe_unused]] const char& result = sv_empty.at(0);
 	} catch (const std::domain_error& e) {
 		REQUIRE(std::string(e.what()) == "filtered_string_view::at(0): invalid index");
 	}
