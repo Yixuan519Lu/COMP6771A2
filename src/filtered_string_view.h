@@ -10,6 +10,10 @@
 #include <stdexcept>
 #include <string>
 
+namespace {
+	using filter = std::function<bool(const char&)>;
+	auto default_predicate = [](const char&) noexcept -> bool { return true; };
+} // namespace
 namespace fsv {
 	using filter = std::function<bool(const char&)>;
 	class filtered_string_view {
@@ -76,7 +80,6 @@ namespace fsv {
 		auto operator=(const filtered_string_view& other) -> filtered_string_view&;
 		auto operator=(filtered_string_view&& other) -> filtered_string_view&;
 		~filtered_string_view();
-		static filter default_predicate;
 		auto at(std::size_t n) const -> const char&;
 		auto operator[](std::size_t n) const -> const char&;
 		auto size() const -> std::size_t;

@@ -226,7 +226,7 @@ TEST_CASE("Check if constructors are noexcept") {
 
 TEST_CASE("default_predicate returns true for all characters") {
 	for (char c = std::numeric_limits<char>::min(); c < std::numeric_limits<char>::max(); ++c) {
-		REQUIRE(fsv::filtered_string_view::default_predicate(c));
+		REQUIRE(default_predicate(c));
 	}
-	REQUIRE(fsv::filtered_string_view::default_predicate(std::numeric_limits<char>::max()));
+	REQUIRE(default_predicate(std::numeric_limits<char>::max()));
 }

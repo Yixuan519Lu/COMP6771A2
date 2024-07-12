@@ -1,7 +1,6 @@
 #include "./filtered_string_view.h"
 
 namespace fsv {
-	filter filtered_string_view::default_predicate = [](const char&) noexcept { return true; };
 	filtered_string_view::filtered_string_view() noexcept
 	: ptr(nullptr)
 	, str_length(0)
